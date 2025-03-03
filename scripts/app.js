@@ -1,5 +1,7 @@
 const ringButtons = document.querySelectorAll(".ring-button");
 const imageContainer = document.querySelector("#product-image");
+const quantityBtns = document.querySelectorAll(".quantity-button");
+const quantityElement = document.querySelector("#quantity");
 
 function handleColorButtonClick(e) {
   const clickedBtn = e.target;
@@ -36,4 +38,14 @@ function handleWristSizeSelection(size) {
       button.classList.add("border-gray-300");
     }
   }
+}
+
+for (const quantityBtn of quantityBtns) {
+  quantityBtn.addEventListener("click", function (e) {
+    const amount = e.target.innerText === "+" ? 1 : -1;
+    
+    const currentQuantity = parseInt(quantityElement.innerText);
+    const newQuantity = Math.max(0, currentQuantity + amount);
+    quantityElement.innerText = newQuantity;
+  });
 }
