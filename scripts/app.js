@@ -2,6 +2,7 @@ const ringButtons = document.querySelectorAll(".ring-button");
 const imageContainer = document.querySelector("#product-image");
 const quantityBtns = document.querySelectorAll(".quantity-button");
 const quantityElement = document.querySelector("#quantity");
+const addToCart = document.querySelector("#add-to-cart");
 
 function handleColorButtonClick(e) {
   const clickedBtn = e.target;
@@ -43,9 +44,58 @@ function handleWristSizeSelection(size) {
 for (const quantityBtn of quantityBtns) {
   quantityBtn.addEventListener("click", function (e) {
     const amount = e.target.innerText === "+" ? 1 : -1;
-    
+
     const currentQuantity = parseInt(quantityElement.innerText);
     const newQuantity = Math.max(0, currentQuantity + amount);
     quantityElement.innerText = newQuantity;
   });
 }
+
+const checkOutContainer = document.querySelector(
+  "#checkout-container"
+);
+
+let cart = [];
+
+addToCart.addEventListener("click", function () {
+  const currentQuantity = parseInt(
+    document.querySelector("#quantity").innerText
+  );
+
+  if (currentQuantity === 0) {
+    alert("Please select a quantity...");
+    return;
+  }
+
+  checkOutContainer.classList.remove("hidden");
+  checkOutContainer.classList.add("flex");
+
+  const cartCount = document.querySelector("#cart-count");
+  const convertedCartCount = parseInt(cartCount.innerText);
+
+  cartCount.innerText = convertedCartCount + currentQuantity;
+
+  const selectedColorBtn = document.querySelector(
+    "button.border-purple-600.w-6"
+  );
+  const selectedColor = selectedColorBtn.id.split("-")[0];
+
+  const selectedSizeBtn = document.querySelector(
+    "button.border-purple-600:not(.w-6)"
+  );
+  const selectedSize = selectedSizeBtn.innerText.split(" ")[0];
+  const selectedPrice = parseInt(
+    selectedSizeBtn.innerText.split(" ")[1].replace("$", "")
+  );
+
+  cart.push({
+    image: imageContainer.src,
+    title: "Classy Modern Smart Watch",
+    color: selectedColor,
+    size: selectedSize,
+    quantity: currentQuantity,
+    price: currentQuantity * selectedPrice
+  });
+
+  console.log(cart)
+});
