@@ -94,8 +94,36 @@ addToCart.addEventListener("click", function () {
     color: selectedColor,
     size: selectedSize,
     quantity: currentQuantity,
-    price: currentQuantity * selectedPrice
+    price: currentQuantity * selectedPrice,
   });
+});
 
-  console.log(cart)
+const checkoutBtn = document.querySelector("#checkout-btn");
+
+checkOutContainer.addEventListener("click", function () {
+  const cartModal = document.querySelector("#cart-modal");
+  cartModal.classList.remove("hidden");
+  cartModal.classList.add("flex");
+
+  const cartContainer = document.querySelector("#cart-items");
+
+  for (const item of cart) {
+    const tr = document.createElement("tr");
+    tr.classList.add("border-b");
+
+    tr.innerHTML = `
+      <td class="py-2 px-4">
+        <div class="flex items-center space-x-2">
+          <img class="w-12 h-12 rounded-md object-cover" src="${item.image}" />
+          <span class="font-semibold">${item.title}</span>
+        </div>
+      </td>
+      <td class="py-2 px-4">${item.color}</td>
+      <td class="py-2 px-4">${item.size}</td>
+      <td class="py-2 px-4">${item.quantity}</td>
+      <td class="py-2 px-4">$${item.price}</td>
+    `;
+
+    cartContainer.appendChild(tr);
+  }
 });
